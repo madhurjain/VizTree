@@ -1,6 +1,8 @@
 // D3
+var w = document.getElementById("treeviz").clientWidth;
+w = w ? w : 560;
 var margin = {top: 40, right: 0, bottom: 20, left: 0},
-    width = 480 - margin.right - margin.left,
+    width = w - margin.right - margin.left,
     height = 600 - margin.top - margin.bottom;    
 
 var d3Tree = d3.layout.tree().size([height, width]);
@@ -14,45 +16,46 @@ var viz = d3.select("#viz").append("svg")
 .append("g")
 .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-function d3ize(tree, n) {
+function D3ize(tree, n) {
   var nodes = {alpha: n || ''};
   if (Object.keys(tree).length) {
     nodes.children = [];
     for (var k in tree) {
-      nodes.children.push(d3ize(tree[k], k));
+      nodes.children.push(D3ize(tree[k], k));
     }
-  }  
+  }
   return nodes;
 }
 
-function GetTrie(words) {
+function GetTree(words) {
   var root = {};
   // iterate over each word in the array
   for (var i = 0; i < words.length; i++) {
     // reset to root
-    var trie = root;
-    // iterate over each char adding it to the trie
+    var tree = root;
+    // iterate over each char adding it to the tree
     for (var j = 0; j < words[i].length; j++) {
-      if (trie[words[i][j]] === undefined) {
-        trie[words[i][j]] = {};
+      if (tree[words[i][j]] === undefined) {
+        tree[words[i][j]] = {};
       }
-      trie = trie[words[i][j]];
+      tree = tree[words[i][j]];
     }
   }
   return root;
 }
 
 function visualize(words) {
-  var root = d3ize(GetTrie(words));  
-  root.x0 = height / 2;
-  root.y0 = 0;
-  update(root);
+  var objTree = GetTree(words);
+  var tree = D3ize(objTree);
+  tree.x0 = height / 2;
+  tree.y0 = 0;
+  update(tree);
 }
   
-function update(root) {
+function update(tree) {
   
   // Compute the new tree layout
-  var nodes = d3Tree.nodes(root),
+  var nodes = d3Tree.nodes(tree),
       links = d3Tree.links(nodes),
       i = 0;
 
@@ -66,7 +69,8 @@ function update(root) {
   // Enter any new nodes at the parent's previous position
   var nodeEnter = node.enter().append("g").attr("class", "node");
 
-  nodeEnter.append("circle").attr("r", 9);
+  nodeEnter.append("circle")
+           .attr("r", 9);
 
   nodeEnter.append("text")
       .attr("x", function(d) { return 0; })
