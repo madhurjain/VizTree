@@ -27,9 +27,10 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
 		return
 	}
-	t, _ := template.ParseFiles("home.html")
-	t.Execute(w, nil)
-	// templates.ExecuteTemplate(w, "home.html", nil)
+	// dev
+	// t, _ := template.ParseFiles("home.html")
+	// t.Execute(w, nil)
+	templates.ExecuteTemplate(w, "home.html", nil)
 }
 
 func suggestHandler(w http.ResponseWriter, r *http.Request) {
