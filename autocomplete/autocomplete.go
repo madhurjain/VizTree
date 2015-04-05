@@ -19,14 +19,17 @@ func NewTrie() *Trie {
 
 func (trie *Trie) AddWord(word string) {
 	currentNode := trie.root
+	// iterate on each character in the word
 	for _, alpha := range word {
 		var newNode *Node
+		// check if a node exists for every character
 		for _, nextNode := range currentNode.next {
 			if alpha == nextNode.alpha {
 				newNode = nextNode
 				break
 			}
 		}
+		// if a child node does not exist for char alpha, add it
 		if newNode == nil {
 			newNode = new(Node)
 			newNode.alpha = alpha
@@ -36,6 +39,7 @@ func (trie *Trie) AddWord(word string) {
 		}
 		currentNode = newNode
 	}
+	// ending node for the word
 	currentNode.isFinal = true
 }
 
