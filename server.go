@@ -15,8 +15,6 @@ var templates = template.Must(template.ParseFiles("home.html"))
 
 var trie *autocomplete.Trie = autocomplete.NewTrie()
 
-var httpClient *http.Client = &http.Client{}
-
 type Response struct {
 	Words []string `json:"words"`
 }
