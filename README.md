@@ -3,6 +3,8 @@ VizTree
 
 VizTree is a Simple, Fast Trie based Auto Suggest
 
+Demo - [http://viztree.madhur.me/](http://viztree.madhur.me/)
+
 ```
 .
 +-- server.go - Demo web application with D3 based visualization for tree
